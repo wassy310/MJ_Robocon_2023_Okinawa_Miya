@@ -3,12 +3,6 @@
 This program was used at the MJ Robocon 2023.  
 Manual robots only.
 
-## Getting Started
-- Clone this project.
-  - `git clone https://github.com/wassy310/MJ_Robocon_2023_Okinawa`
-- Debug & Run
-  - `*******`
-
 ## Environments
 |        |                                        |
 |  :-:   | -------------------------------------- |
