@@ -23,7 +23,7 @@ void init_robot() {
 
     PC.printf("Robot initialization is complete.\r\n\r\n\r\n\r\n");
     wait_ms(500);
-    Pc.printf("To exit, press the '〇' button.\r\n");
+    PC.printf("To exit, press the '〇' button.\r\n");
     do {
         wait_ms(1);
     } while(PS3[2] != 0x40);
