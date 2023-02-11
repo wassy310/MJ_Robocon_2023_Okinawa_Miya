@@ -1,5 +1,8 @@
 #include "mbed.h"
 
+void Config();
+void PS3Data();
+
 RawSerial(USBTX, USBRX);
 RawSerial(PC_10, PC_11, 2400);
 
@@ -117,8 +120,7 @@ void Config() {
     SBDBT.attach(&PS3Data, Serial::RxIrq);
 }
 
-
-inline void PS3Data() {
+void PS3Data() {
     int SBDBT_Data = SBDBT.getc();
     static int bits = 0;
     
