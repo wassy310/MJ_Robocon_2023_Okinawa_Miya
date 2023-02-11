@@ -1,3 +1,4 @@
+[English ver. - 英語版](https://github.com/wassy310/MJ_Robocon_2023_Okinawa/blob/master/README.md)
 # MJ_Robocon_2023_Okinawa
 ## 概要
 MJロボコン2023で使用したプログラムです。  
@@ -14,4 +15,4 @@ MJロボコン2023で使用したプログラムです。
 [Wassy | Ryoga Washizawa](https://github.com/wassy310)
 
 ## 連絡先
-バグや機能のリクエストはこちらへ [GitHub Issues](https://github.com/wassy310/MJ_Robocon_2023_Okinawa/issues).
+バグや機能のリクエストはこちらへ: [GitHub Issues](https://github.com/wassy310/MJ_Robocon_2023_Okinawa/issues).
