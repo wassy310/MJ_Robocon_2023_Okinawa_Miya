@@ -1,3 +1,4 @@
+[日本語版 - Japanese ver.](https://github.com/wassy310/MJ_Robocon_2023_Okinawa/blob/master/README-ja.md)
 # MJ_Robocon_2023_Okinawa
 ## Overview
 This program was used at the MJ Robocon 2023.  
