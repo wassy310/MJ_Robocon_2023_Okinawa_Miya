@@ -1,6 +1,6 @@
 # MJ_Robocon_2023_Okinawa
 ## Overview
-This program was used at the MJ Robocon.  
+This program was used at the MJ Robocon 2023.  
 Manual robots only.
 
 ## Getting Started
