@@ -97,15 +97,15 @@ void config() {
 }
 
 void ps3_data() {
-    int SBDBT_Data = sbdbt.getc();
+    int sbdbt_data = sbdbt.getc();
     static int bits = 0;
     
-    if(SBDBT_Data == 128) {
+    if(sbdbt_data == 128) {
         bits = 0;
     }
 
-    if (SBDBT_Data >= 0) {
-        ps3[bits] = SBDBT_Data;
+    if (sbdbt_data >= 0) {
+        ps3[bits] = sbdbt_data;
         
         if (bits == 7) {
             bits = 0;
