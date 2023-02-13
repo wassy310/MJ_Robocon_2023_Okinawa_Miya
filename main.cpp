@@ -7,8 +7,8 @@ void init_pwm();
 void move_pwm(int status_chassis);
 void ps3_data();
 
-RawSerial pc(USBTX, USBRX);
-RawSerial sbdbt(D1, D0, 2400);
+RawSerial pc(USBTX, USBRX, 9600);
+RawSerial sbdbt(A0, A1, 2400);
 
 DigitalInOut chassis[3] = {D2, D7, D4}; // r, arm, l
 PwmOut chassis_p[3] = {D6, D5, D9}; // r, arm, l
@@ -61,27 +61,27 @@ void move_chassis() {
         default:
             pc.printf("%d\r\n", ps3[1]);
 
-            if(ps3[2] == 0x10) {
-                switch(ps3[1]) {
-                    case 0x04:
-                        chassis[0] = 1;
-                        chassis[1] = 1;
-                        move_pwm(1);
-                        pc.printf("Robot is rotating Left.\r\n");
-                        break;
+        if(ps3[2] == 0x10) {
+            switch(ps3[1]) {
+                case 0x04:
+                    chassis[0] = 0;
+                    chassis[1] = 0;
+                    move_pwm(1);
+                    pc.printf("Robot is rotating Left.\r\n");
+                    break;
 
-                    case 0x10:
-                        chassis[0] = 0;
-                        chassis[1] = 0;
-                        move_pwm(1);
-                        pc.printf("Robot is rotating Right.\r\n");
-                        break;
+                case 0x10:
+                    chassis[0] = 1;
+                    chassis[1] = 1;
+                    move_pwm(1);
+                    pc.printf("Robot is rotating Right.\r\n");
+                    break;
 
-                    default:
-                        move_pwm(0);
-                }
-            } else
-                move_pwm(0);
+                default:
+                    move_pwm(0);
+            }
+        } else
+            move_pwm(0);
     }
 }
 
