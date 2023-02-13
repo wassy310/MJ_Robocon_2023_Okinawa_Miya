@@ -8,10 +8,10 @@ void move_pwm(int status_chassis);
 void ps3_data();
 
 RawSerial pc(USBTX, USBRX);
-RawSerial sbdbt(PC_10, PC_11, 2400);
+RawSerial sbdbt(D1, D0, 2400);
 
-DigitalInOut chassis[2] = {PF_6, PA_14, PA_13, PF_7};
-PwmOut chassis_p[2] = {PA_6, PB_6, PC_7, PA_7};
+DigitalInOut chassis[3] = {D2, D7, D4}; // r, arm, l
+PwmOut chassis_p[3] = {D6, D5, D9}; // r, arm, l
 
 int ps3[7];
 
