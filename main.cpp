@@ -8,9 +8,9 @@ RawSerial sbdbt(A0, A1, 2400);
 DigitalInOut chassis[3] = {D2, D7, D4}; // r, arm, l
 PwmOut chassis_p[3] = {D6, D5, D9}; // r, arm, l
 
-int ps3[7];
+int PS3[7];
 
-void ps3_data() {
+void PS3_data() {
     int sbdbt_data = sbdbt.getc();
     static int bits = 0;
 
@@ -19,7 +19,7 @@ void ps3_data() {
     }
 
     if (sbdbt_data >= 0) {
-        ps3[bits] = sbdbt_data;
+        PS3[bits] = sbdbt_data;
 
         if (bits == 7) {
             bits = 0;
@@ -30,7 +30,7 @@ void ps3_data() {
 }
 
 void config() {
-    sbdbt.attach(&ps3_data, Serial::RxIrq);
+    sbdbt.attach(&PS3_data, Serial::RxIrq);
 }
 
 void init_pwm() {
@@ -45,7 +45,7 @@ void move_pwm(int status_chassis) {
     chassis_p[0] = status_chassis * max_speed;
     chassis_p[1] = status_chassis * max_speed;
     
-    pc.printf("%x\tstatus = %d\r\n", ps3[2], status_chassis);
+    pc.printf("%x\tstatus = %d\r\n", PS3[2], status_chassis);
 }
 
 void init_robot() {
@@ -54,7 +54,7 @@ void init_robot() {
     pc.printf("Enter both sticks below.\r\n");
     do {
         wait_ms(1);
-    } while((ps3[4] != 0x7F) && (ps3[6] != 0x7F));
+    } while((PS3[4] != 0x7F) && (PS3[6] != 0x7F));
 
     init_pwm();
 
@@ -63,12 +63,12 @@ void init_robot() {
     pc.printf("To exit, press the '〇' button.\r\n");
     do {
         wait_ms(1);
-    } while(ps3[2] != 0x40);
+    } while(PS3[2] != 0x40);
     wait_ms(1000);
 }
 
 void move_chassis() {
-    switch(ps3[2]) {
+    switch(PS3[2]) {
         case 0x01:
             chassis[0] = 0;
             chassis[1] = 1;
@@ -84,10 +84,10 @@ void move_chassis() {
             break;
 
         default:
-            pc.printf("%d\r\n", ps3[1]);
+            pc.printf("%d\r\n", PS3[1]);
 
-        if(ps3[2] == 0x10) {
-            switch(ps3[1]) {
+        if(PS3[2] == 0x10) {
+            switch(PS3[1]) {
                 case 0x04:
                     chassis[0] = 0;
                     chassis[1] = 0;
