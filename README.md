@@ -14,5 +14,8 @@ Manual robots only.
 ## Author
 [Wassy | Ryoga Washizawa](https://github.com/wassy310)
 
+## Reference
+[GitHub - NHK_2022_Robocon_Okinawa_Ateam](https://github.com/ByakkoMatsumiya/NHK_2022_Robocon_Okinawa_Ateam)
+
 ## Contact
 Bugs and feature requests please visit [GitHub Issues](https://github.com/wassy310/MJ_Robocon_2023_Okinawa/issues).
