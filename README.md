@@ -3,14 +3,13 @@
 MJロボコン2023で使用したプログラムです。  
 手動ロボットのみ
 
-## Environments
+## 開発環境
 |        |                                        |
 |  :-:   | -------------------------------------- |
 | OS     | Windows 10 Pro                         |
 | IDE    | Keil Studio                            |
-| その他 |                                        |
 
-## 著者
+## 作成者
 [Wassy | Ryoga Washizawa](https://github.com/wassy310)
 
 ## 参考
