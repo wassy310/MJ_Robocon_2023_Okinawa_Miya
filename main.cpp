@@ -1,17 +1,16 @@
 #include "mbed.h"
 
-#define max_speed 1.0
-#define max_rotate 0.05
+#define max_speed 1.0    // モータの最大回転速度
+#define max_rotate 0.05    // アームの最大回転速度
+
+int PS3[7];
+int i;
 
 RawSerial pc(USBTX, USBRX, 9600);
 RawSerial sbdbt(PA_0, PA_1, 2400);
 
-DigitalOut chassis[3] = {PA_10, PA_8, PB_5};    // r, arm, l
-PwmOut chassis_p[3] = {PB_10, PB_4, PC_7};    // r, arm, l
-
-int PS3[7];
-int flag_command;
-int counter;
+DigitalOut motor[3] = {PA_10, PA_8, PB_5};    // 右輪、アーム、左輪
+PwmOut motor_p[3] = {PB_10, PB_4, PC_7};    // 右輪、アーム、左輪
 
 void PS3_data() {
     int sbdbt_data = sbdbt.getc();
@@ -21,10 +20,10 @@ void PS3_data() {
         bits = 0;
     }
 
-    if (sbdbt_data >= 0) {
+    if(sbdbt_data >= 0) {
         PS3[bits] = sbdbt_data;
 
-        if (bits == 7) {
+        if(bits == 7) {
             bits = 0;
         } else {
             bits++;
@@ -37,33 +36,25 @@ void config() {
 }
 
 void init_pwm() {
-    chassis_p[0].period_us(100);
-    chassis_p[1].period_us(100);
-    chassis_p[2].period_us(100);
+    for(size_t i=0; i<3; i++) {
+        motor_p[i].period_us(100);
+    }
 
     pc.printf("PWM initialization is complete.");
-    wait_us(200000);
+    wait_us(100000);
 }
 
-void move_pwm(double status_chassis) {
-    chassis_p[0] = status_chassis * max_speed;
-    // chassis_p[1] = status_chassis * max_speed;
-    chassis_p[2] = status_chassis * max_speed;
-    
+void move_pwm_chassis(double status_chassis) {
+    motor_p[0] = status_chassis * max_speed;
+    motor_p[2] = status_chassis * max_speed;
+
     pc.printf("%x\tstatus = %lf\r\n", PS3[2], status_chassis);
 }
 
-void init_arm() {
-    chassis[1] = 0.0;
-    wait_us(100000);
+void move_pwm_arm(double status_chassis) {
+    motor_p[1] = status_chassis * max_speed;
 
-    chassis_p[1].period_ms(12);
-
-    flag_command = 0;
-    counter = 0;
-
-    pc.printf("Arm initalization is complete.\r\n");
-    wait_us(100000);
+    pc.printf("%x\tstatus = %lf\r\n", PS3[2], status_chassis);
 }
 
 void setup() {
@@ -78,71 +69,98 @@ void setup() {
 
     pc.printf("Robot initialization is complete.\r\n");
     wait_us(500000);
-
-    pc.printf("To exit, press the '〇' button.\r\n");
-    do {
-        wait_us(1000);
-    } while(PS3[2] != 0x40);
-    wait_us(1000000);
 }
 
 void move_chassis() {
     switch(PS3[2]) {
         case 0x01:
-            chassis[0] = 0;
-            chassis[2] = 1;
+            motor[0] = 0;
+            motor[2] = 1;
             pc.printf("Robot is moving forward.\r\n");
-            move_pwm(0.5);
+            move_pwm_chassis(0.5);
             break;
 
         case 0x02:
-            chassis[0] = 1;
-            chassis[2] = 0;
-            pc.printf("Robot is moving Back.\r\n");
-            move_pwm(0.5);
+            motor[0] = 1;
+            motor[2] = 0;
+            pc.printf("Robot is moving back.\r\n");
+            move_pwm_chassis(0.5);
             break;
 
         case 0x04:
-            chassis[0] = 1;
-            chassis[2] = 1;
-            pc.printf("Robot is moving Right.\r\n");
-            move_pwm(0.5);
+            motor[0] = 1;
+            motor[2] = 1;
+            pc.printf("Robot is moving right.\r\n");
+            move_pwm_chassis(0.5);
             break;
 
         case 0x08:
-            chassis[0] = 0;
-            chassis[2] = 0;
-            pc.printf("Robot is moving Left.\r\n");
-            move_pwm(0.5);
+            motor[0] = 0;
+            motor[2] = 0;
+            pc.printf("Robot is moving left.\r\n");
+            move_pwm_chassis(0.5);
+            break;
+
+        case 0x11:
+            motor[1] = 1;
+            pc.printf("Arm is rising.\r\n");
+            move_pwm_arm(0.5);
+            break;
+
+        case 0x12:
+            motor[1] = 0;
+            pc.printf("Arm is descending.\r\n");
+            move_pwm_arm(0.5);
             break;
 
         default:
             pc.printf("%d\r\n", PS3[1]);
-            move_pwm(0);
+            move_pwm_chassis(0);
+            move_pwm_arm(0);
+            
+            // if(PS3[2] == 0x10) {
+            //     switch(PS3[1]) {
+            //         case 0x11:
+            //             motor[1] = 1;
+            //             pc.printf("Arm is rising.\r\n");
+            //             move_pwm(0.5);
+            //             break;
+
+            //         case 0x12:
+            //             motor[1] = 0;
+            //             pc.printf("Arm is descending.\r\n");
+            //             move_pwm(0.5);
+            //             break;
+
+            //         default:
+            //             move_pwm(0);
+            //     }
+            // } else
+            //     move_pwm(0);
     }
 }
 
-void move_arm() {
-    chassis[1] = 0;
+// void move_arm() {
+//     switch(PS3[2]) {
+//         case 0x11:    //△＋上キーの入力: 上
+//             motor[1] = 1;
+//             motor_p[1] = max_rotate;
+//             pc.printf("Arm is rising.\r\n");
+//             move_pwm(0.5);
+//             break;
 
-    switch(PS3[2]) {
-        case 0x11:    //△＋上キーの入力: 上
-            chassis[1] = 0;
-            chassis[1] = max_rotate;
-            pc.printf("UNIT_C is rotating to the Up.\r\n");
-            move_pwm(0.5);
-            break;
+//         case 0x12:    //△＋下キーの入力: 下
+//             motor[1] = 0;
+//             motor_p[1] = max_rotate;
+//             pc.printf("Arm is descending.\r\n");
+//             move_pwm(0.5);
+//             break;
 
-        case 0x12:    //△＋下キーの入力: 下
-            chassis[1] = 1;
-            chassis[1] = max_rotate;
-            pc.printf("UNIT_C is rotating to the Down.\r\n");
-            move_pwm(0.5);
-            break;
-        default:
-            chassis[1] = 0;
-    }
-}
+//         default:
+//             pc.printf("%d\r\n", PS3[1]);
+//             move_pwm(0);
+//     }
+// }
 
 int main() {
     pc.printf("Writing completed.\r\n");
@@ -151,6 +169,6 @@ int main() {
 
     while(1) {
         move_chassis();
-        move_arm();
+        // move_arm();
     }
 }
