@@ -75,14 +75,14 @@ void move_robot() {
             motor[0] = 1;
             motor[1] = 0;
             pc.printf("Robot is moving forward.\r\n");
-            move_pwm_chassis(0.5);
+            move_pwm_chassis(1);
             break;
 
         case 0x02:    // 下キー
             motor[0] = 0;
             motor[1] = 1;
             pc.printf("Robot is moving back.\r\n");
-            move_pwm_chassis(0.5);
+            move_pwm_chassis(1);
             break;
 
         case 0x04:    // 右キー
