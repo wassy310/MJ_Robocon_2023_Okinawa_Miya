@@ -1,4 +1,4 @@
-# MJ_Robocon_2023_Okinawa
+# MJ_Robocon_2023_Okinawa_Miya
 ## 概要
 MJロボコン2023で使用したプログラムです。  
 手動ロボットのみ
