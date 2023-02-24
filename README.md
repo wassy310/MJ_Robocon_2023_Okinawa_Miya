@@ -4,11 +4,7 @@ MJロボコン2023で使用した手動ロボット、「宮」のプログラ�
 
 ## 操作・入力に対する動作について
 画像の通り
-<div align="center">
-    <p>
-        <img with="30%" src="https://user-images.githubusercontent.com/74349349/221130258-b218a59b-e64c-4a74-b2f6-33b522ceb3e1.png">
-    </p>
-</div>
+<img with="30%" src="https://user-images.githubusercontent.com/74349349/221130258-b218a59b-e64c-4a74-b2f6-33b522ceb3e1.png">
 
 ## 開発環境
 |        ||
