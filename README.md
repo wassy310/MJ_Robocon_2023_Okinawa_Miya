@@ -6,7 +6,7 @@ MJロボコン2023で使用した手動ロボット、「宮」のプログラ�
 画像の通り
 <div align="center">
     <p>
-        <img with="50%" src="https://user-images.githubusercontent.com/74349349/221130258-b218a59b-e64c-4a74-b2f6-33b522ceb3e1.png">
+        <img with="30%" src="https://user-images.githubusercontent.com/74349349/221130258-b218a59b-e64c-4a74-b2f6-33b522ceb3e1.png">
     </p>
 </div>
 
